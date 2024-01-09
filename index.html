@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leet Speak Translator</title>
+
+    <!-- CSS -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: greenyellow;
+            background-image: radial-gradient(#333, black);
+            height: 100vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .error {
+            color: rgb(247, 76, 76);
+            font-size: .7rem;
+            padding:.5rem .5rem 0;
+        }
+        .hide {
+            display: none;
+        }
+        #container {
+            max-width: 450px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: rgba(255,255,255,.2);
+            border-radius: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        #container header {
+            padding: 1rem 0 2rem;
+            text-align: center;
+        }
+        .form-control {
+            padding: 0 1rem 1rem;
+            border-bottom: 2px solid rgba(0,0,0,.2);
+            width: 100%;
+            min-height: 80px;
+        }
+        .form-control form {
+            display: flex;
+            width: 100%;
+        }
+        #fText, button#exec {
+            border-radius: 5px;
+            color: greenyellow;
+            font-size: .8rem;
+            padding: .5rem;
+            transition: 1s;;
+            font-weight: bold;
+        }
+        #fText:hover, button#exec:hover {
+            border: 2px solid greenyellow;
+        }
+        #fText {
+            width: 100%;
+            border: 2px solid rgba(0,0,0,.2);
+            background-color: rgba(0,0,0,0);
+            
+        }
+        button#exec {
+            margin-left: .3rem;
+            border: 2px solid rgba(0,0,0,0);
+            background-color: rgba(0,0,0,.1);
+            cursor: pointer;
+        }
+        #fText::placeholder {
+            font-size: .8rem;
+        }
+        #res {
+            min-height: 90px;
+            padding: 2rem 1rem;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        #res h3 {
+            font-size: .8rem;
+            text-align: center;
+        }
+        #res p {
+            font-size: .8rem;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+
+<!-- Conteúdo -->
+
+<body>
+    <div id="container">
+        <header>
+            <h1>L33T 5P34K 7R4N5L470R</h1>
+        </header>
+
+        <div class="form-control">
+            <form>
+                <input type="text" id="fText" placeholder="7YP3 50M3 73X7..." value="Lorem ipsum dolor sit amet.">
+                <button type="submit" id="exec">7R4N5L473</button>
+            </form>
+            <small class="error hide">Please, fill this field.</small>
+        </div>
+        
+
+        <div id="res">
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+
+    <script>
+        const fText = document.querySelector('#fText');
+        const execBtn = document.querySelector('button#exec');
+        const errorMsg = document.querySelector('.error');
+        const res = document.querySelector('#res');
+
+        execBtn.addEventListener("click", (e) => {
+            
+            e.preventDefault();
+            
+            if(!fText.value) {
+                errorMsg.classList.remove('hide');
+                return;
+            } else {
+                const pText = fText.value.toUpperCase();
+                errorMsg.classList.add('hide');
+                let cText = "";
+                var searchFlag = false;
+                const encoder = [["A","4"],
+                                ["E","3"],
+                                ["I","|"],
+                                ["L","1"],
+                                ["O","0"],
+                                ["S","5"],
+                                ["T","7"]];
+                
+                for (i=0; i < pText.length; i++) { // Varre todos os caracteres do texto digitado
+                    
+                    for (l=0; l < encoder.length; l++) { // Varre as linhas da matriz
+
+                        if (encoder[l].includes(pText[i])) {
+
+                            for (c=0; c < encoder[l].length; c+=2) { // Varre as colunas da matriz
+                                
+                                if (pText[i] == encoder[l][c]) {
+    
+                                    cText += encoder[l][c+1];
+                                    searchFlag = true;
+                                    break;
+    
+                                } else if (pText[i] == encoder[l][c+1]) {
+                                    
+                                    cText += encoder[l][c];
+                                    searchFlag = true;
+                                    break;
+
+                                }
+                            }
+                            break;
+                        } else {
+                            searchFlag = false;
+                        } 
+                    }
+
+                    if (searchFlag == false) {
+                        cText += pText[i];
+                    }
+                }
+                res.innerHTML = `<p>${cText}</p>`;
+            }
+        })
+    </script>
+</body>
+</html>
